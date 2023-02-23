@@ -10,11 +10,11 @@ function myRequest() {
         text = 'Номер страницы и лимит вне диапазона от 1 до 10'
         //console.log(text);
         resultNode.innerHTML = `<p>${text}</p>`;
-    } else if (notInDiapason(n1)){
+    } else if (notInDiapason(n1)) {
         text = 'Номер страницы вне диапазона от 1 до 10';
         // console.log(text);
         resultNode.innerHTML = `<p>${text}</p>`;
-    } else if (notInDiapason(n2)){
+    } else if (notInDiapason(n2)) {
         text = 'Лимит вне диапазона от 1 до 10';
         // console.log(text);
         resultNode.innerHTML = `<p>${text}</p>`;
@@ -27,7 +27,7 @@ function myRequest() {
                 return result;
             })
             .then((data) => {
-                console.log(data);
+                //console.log(data);
                 let card = '';
                 data.forEach(item => {
                     const c = `
@@ -37,19 +37,48 @@ function myRequest() {
                     </div>
                     `;
                     card = card + c;
-                    console.log(card)
+                    //console.log(card)
                 });
                 resultNode.innerHTML = card;
+                // Записываем результат запроса в localStorage
+                localStorage.setItem('myJSON', JSON.stringify(data));
             })
             .catch(() => { console.log('error') });
     }
 };
 
-function notInDiapason(num){
+function notInDiapason(num) {
     if (isNaN(num) || num < 1 || num > 10) {
         return true;
-}}
+    }
+};
+
+function chekLocalStorage(){
+    const myJSON = localStorage.getItem('myJSON');
+    let card = '';
+    if (myJSON) {
+        //console.log('localStorage JSON', JSON.parse(myJSON));
+        data = JSON.parse(myJSON);
+        console.log('data from ls', data)
+        data.forEach(item => {
+            const c = `
+            <div class="card">
+            <img src="${item.download_url}" class="card-img" width="200" alt="картинка">
+            <p>${item.author}</p>
+            </div>
+            `;
+            card = card + c;
+        });
+        
+    } else {card = '<p></p>'}
+
+    resultNode.innerHTML = card;
+}
+
+//localStorage.removeItem('myJSON');
+
+chekLocalStorage();
 
 btnNode.addEventListener('click', () => {
-    myRequest();
+  myRequest();
 })
