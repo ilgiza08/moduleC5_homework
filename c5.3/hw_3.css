@@ -1,0 +1,11 @@
+.b_result {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 600px;
+    margin: 20px 0;
+
+ };
+ 
+ .card {
+    margin-right: 20px;
+ }
